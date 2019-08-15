@@ -1,6 +1,6 @@
 {
   "name": "ora-cli",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "🚧 个人开发脚手架",
   "dependencies": {
     "chalk": "^2.4.2",
@@ -22,8 +22,8 @@
   },
   "bin": {
     "ora": "bin/ora",
-    "ora-init": "bin/ora-init",
-    "ora-list": "bin/ora-list"
+    "ora init": "bin/ora-init",
+    "ora list": "bin/ora-list"
   },
   "author": "cola_j",
   "keywords": [
@@ -39,6 +39,7 @@
   "directories": {
     "lib": "lib"
   },
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LishiJ/ora-cli.git"
