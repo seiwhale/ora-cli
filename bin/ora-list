@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+const logger = require('../lib/logger')
+const request = require('request')
+const chalk = require('chalk')
+const ora = require('ora')
+
+/**
+ * Empty line
+ */
+
+console.log()
+process.on('exit', () => {
+  console.log()
+})
+
+/**
+ * Get repos
+ */
+
+const spinner = ora({
+  text: 'Getting templates, please wait...',
+  spinner: {
+    interval: 100,
+    frames: [
+      "🚶 ",
+      "🏃 "
+    ]
+  }
+}); 
+spinner.start();        // Start ora loading
+
+request({
+  url: 'https://api.github.com/users/ora-templates/repos',
+  headers: {
+    'User-Agent': 'ora-cli'
+  }
+}, (err, res, body) => {
+  if (err) logger.fatal(err)
+  const requestBody = JSON.parse(body)
+  if (Array.isArray(requestBody)) {
+    spinner.succeed('Available official templates:');
+    console.log()
+    if (requestBody.length === 0) { // empty templates
+      console.log(
+        '  ' + chalk.gray('empty templates, please conatact LishiJ.')
+      )
+    } else {
+      requestBody.forEach(repo => {
+        console.log(
+          '  ' + chalk.yellow('★') +
+          '  ' + chalk.blue(repo.name) +
+          ' - ' + repo.description)
+      })
+    }
+  } else {
+    spinner.fail(requestBody.message);
+  }
+})
+

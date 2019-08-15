@@ -1,0 +1,50 @@
+{
+  "name": "ora-cli",
+  "version": "0.0.1",
+  "description": "🚧 个人开发脚手架",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^3.0.0",
+    "cross-spawn": "^6.0.5",
+    "download-git-repo": "^2.0.0",
+    "fs": "^0.0.1-security",
+    "handlebars": "^4.1.2",
+    "inquirer": "^6.5.1",
+    "log-symbols": "^3.0.0",
+    "ora": "^3.4.0",
+    "request": "^2.88.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ora": "node bin/ora",
+    "ora-init": "node bin/ora-init",
+    "ora-list": "node bin/ora-list"
+  },
+  "bin": {
+    "ora": "bin/ora",
+    "ora-init": "bin/ora-init",
+    "ora-list": "bin/ora-list"
+  },
+  "author": "cola_j",
+  "keywords": [
+    "cli",
+    "ora",
+    "vue",
+    "react"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "license": "MIT",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LishiJ/ora-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LishiJ/ora-cli/issues"
+  },
+  "homepage": "https://github.com/LishiJ/ora-cli#readme"
+}

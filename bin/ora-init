@@ -1,0 +1,258 @@
+#!/usr/bin/env node
+
+const download = require('download-git-repo')
+const program = require('commander')
+const fs = require('fs');
+const path = require('path')
+const ora = require('ora')
+const chalk = require('chalk')
+const request = require('request')
+const inquirer = require('inquirer')
+const handlebars = require('handlebars');
+const spawn = require('cross-spawn')
+const rm = require('rimraf').sync
+const checkVersion = require('../lib/check-version')
+const logger = require('../lib/logger')
+
+const exists = fs.existsSync
+
+
+/*************************************************** */
+init();
+// 
+const hasTempName = program.args.length > 1
+let template = hasTempName ? program.args[0] : ''
+const hasSlash = template.indexOf('/') > -1
+const rawName = hasTempName ? program.args[1] : program.args[0]
+const inPlace = !rawName || rawName === '.'
+const name = inPlace ? path.relative('../', process.cwd()) : rawName
+const to = path.resolve(rawName || '.')
+const clone = program.clone || false
+
+// Empty Line
+process.on('exit', () => {
+  console.log()
+})
+
+// execute
+if (inPlace || exists(to)) {
+  inquirer.prompt([{
+    type: 'confirm',
+    message: inPlace
+      ? 'Generate project in current directory?'
+      : 'Target directory exists. Continue?',
+    name: 'ok'
+  }]).then(answers => {
+    if (answers.ok) {
+      run()
+    }
+  }).catch(logger.fatal)
+} else {
+  run()
+}
+
+/**
+ * Init settings
+ */
+function init () {
+  program
+    .usage('[template-name] <project-name>')  // Usage
+    .on('--help', () => {                     // Help
+      console.log('  Examples:')
+      console.log()
+      console.log(chalk.gray('    # create a new project with an official template'))
+      console.log('    $ ora init my-project')
+      console.log()
+      console.log(chalk.gray('    # create a new project straight from a github template'))
+      console.log('    $ ora init username/repo my-project')
+      console.log()
+    })
+
+  program.parse(process.argv)
+    if (program.args.length < 1) return program.help()
+}
+
+
+/**
+ * Check, download and generate the project.
+ */
+
+function run () {
+  checkVersion(() => {
+    if (!hasSlash) {
+      let promptList = [
+        {
+          type: 'input',
+          name: 'project_name',
+          message: 'Please enter project name:',
+          default: name
+        },
+        {
+          type: 'input',
+          name: 'author',
+          message: 'Please enter the author:'
+        },
+        {
+          type: 'input',
+          name: 'description',
+          message: 'Please enter project description:',
+          default: 'A ora project'
+        },
+      ]
+      inquirer.prompt(promptList).then(answers => {
+        if (template) { // has template
+          // use official templates
+          const officialTemplate = 'ora-templates/' + template
+          downloadAndGenerate(officialTemplate, answers)
+        } else { // has not template
+          const get_templates_spinner = ora({
+            text: 'Getting templates, please wait...',
+            spinner: {
+              interval: 100,
+              frames: [
+                "🚶 ",
+                "🏃 "
+              ]
+            }
+          }); 
+          get_templates_spinner.start(); 
+          request({
+            url: 'https://api.github.com/users/ora-templates/repos',
+            headers: {
+              'User-Agent': 'ora-cli'
+            }
+          }, (err, res, body) => {
+            if (err) logger.fatal(err)
+            const requestBody = JSON.parse(body)
+            get_templates_spinner.stop();
+            if (Array.isArray(requestBody)) {
+              console.log()
+              if (requestBody.length === 0) { // empty templates
+                console.log(
+                  '  ' + chalk.gray('empty templates, please conatact LishiJ at https://lisj.ml.')
+                )
+              } else {
+                let tplNames = [];
+                requestBody.forEach(repo => {
+                  tplNames.push({
+                    name: (
+                      '  ' + chalk.yellow('★') +
+                      '  ' + chalk.blue(repo.name) +
+                      ' - ' + repo.description
+                    ),
+                    value: repo.name,
+                    short: repo.name
+                  });
+                })
+                // 
+                let _promptList = [
+                  {
+                    type: 'list',
+                    message: 'Please select project template:',
+                    name: 'tplName',
+                    choices: tplNames
+                  },
+                ]
+                inquirer.prompt(_promptList).then(res => {
+                  let ind = requestBody.find(function (ele) {
+                    return res.tplName == ele.name;
+                  });
+                  let gitUrl = `${ind.full_name}#${ind.default_branch}`;
+                  downloadAndGenerate(gitUrl, answers);
+                })
+              }
+            } else {
+              spinner.fail(requestBody.message);
+            }
+          })
+        }
+      })
+    } else {
+      downloadAndGenerate(template)
+    }
+  })
+}
+
+/**
+ * Download a generate from a template repo.
+ *
+ * @param {String} template
+ */
+
+function downloadAndGenerate (template, answers = { project_name: 'default' }) {
+  console.log();
+  const spinner = ora({
+    text: 'downloading template...',
+    spinner: {
+      "interval": 100,
+      "frames": [
+        "🕛 ",
+        "🕐 ",
+        "🕑 ",
+        "🕒 ",
+        "🕓 ",
+        "🕔 ",
+        "🕕 ",
+        "🕖 ",
+        "🕗 ",
+        "🕘 ",
+        "🕙 ",
+        "🕚 "
+      ]
+    }
+  });
+  spinner.start()
+  const { project_name } = answers;
+  // Remove if local template exists
+  if (exists(project_name)) rm(project_name)
+
+  download(template, project_name, { clone }, err => {
+    spinner.stop()
+    if (err) logger.fatal('Failed to download repo ' + template + ': ' + err.message.trim())
+    // 
+    const meta = {
+      ...answers,
+      name: project_name
+    }
+    const fileName = `${project_name}/package.json`;
+    const content = fs.readFileSync(fileName).toString();
+    const result = handlebars.compile(content)(meta);
+    fs.writeFileSync(fileName, result);
+
+    // choose installing package tool
+    inquirer.prompt([{
+      type: "list",
+      message: "Select the package management tool:",
+      name: "tool",
+      choices: [
+        'npm',
+        'yarn'
+      ],
+    }]).then(answers => {
+      const { tool } = answers;
+      const child = spawn(
+        tool,
+        ['install'],
+        { 
+          stdio: 'inherit',
+          cwd: `./${project_name}`
+        }
+      );
+  
+      child.on('close', code => {
+        if (code !== 0) {
+          logger.fatal(`${tool} install wrong!`)
+          return;
+        }
+        // 
+        console.log();
+        console.log('We suggest that you begin by typing:');
+        console.log();
+        console.log('  ' + chalk.blue(`cd `) + chalk.green(project_name));
+        console.log('  ' + chalk.blue(`${tool} start`));
+        console.log();
+        console.log('Happy hacking!');
+      });
+    })
+  })
+}
