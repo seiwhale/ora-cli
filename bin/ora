@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const chalk = require('chalk')
+
+// name
+console.log(chalk.green(` _____   _____        ___   _____   _       _  
+/  _  \\ |  _  \\      /   | /  ___| | |     | |\n| | | | | |_| |     / /| | | |     | |     | |\n| | | | |  _  /    / / | | | |     | |     | |\n| |_| | | | \\ \\   / /  | | | |___  | |___  | |\n\\_____/ |_|  \\_\\ /_/   |_| \\_____| |_____| |_|\n`))
 
 program
-  .version(require('../package').version)
+  .version(require('../package').version, '-v, --version')
   .usage('<command> [options]')
   .command('init', 'generate a new project from a template')
   .command('list', 'list available official templates')
