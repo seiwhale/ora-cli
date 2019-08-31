@@ -3,9 +3,13 @@
 const program = require('commander')
 const chalk = require('chalk')
 
-// name
-console.log(chalk.green(` _____   _____        ___   _____   _       _  
-/  _  \\ |  _  \\      /   | /  ___| | |     | |\n| | | | | |_| |     / /| | | |     | |     | |\n| | | | |  _  /    / / | | | |     | |     | |\n| |_| | | | \\ \\   / /  | | | |___  | |___  | |\n\\_____/ |_|  \\_\\ /_/   |_| \\_____| |_____| |_|\n`))
+// Output package name
+const argvs = process.argv.slice(2);
+const SHOW_PACKAGE_NAME = !argvs.length || (argvs[0] === '-h' || argvs[0] === '--help')
+if (SHOW_PACKAGE_NAME) {
+  console.log(chalk.green(` _____   _____        ___   _____   _       _  
+/  _  \\ |  _  \\      /   | /  ___| | |     | |\n| | | | | |_| |     / /| | | |     | |     | |\n| | | | |  _  /    / / | | | |     | |     | |\n| |_| | | | \\ \\   / /  | | | |___  | |___  | |\n\\_____/ |_|  \\_\\ /_/   |_| \\_____| |_____| |_|\n`))  
+};
 
 program
   .version(require('../package').version, '-v, --version')

@@ -58,13 +58,14 @@ function init () {
   program
     .usage('[template-name] <project-name>')  // Usage
     .on('--help', () => {                     // Help
-      console.log('  Examples:')
+      console.log('');
+      console.log('Examples:')
       console.log()
       console.log(chalk.gray('    # create a new project with an official template'))
-      console.log('    $ ora init my-project')
+      console.log(chalk.yellow('    $ ora init') + chalk.green(' my-project'))
       console.log()
       console.log(chalk.gray('    # create a new project straight from a github template'))
-      console.log('    $ ora init username/repo my-project')
+      console.log(chalk.yellow('    $ ora init username/repo') + chalk.green(' my-project'))
       console.log()
     })
 
