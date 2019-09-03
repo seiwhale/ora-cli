@@ -1,7 +1,7 @@
 {
   "name": "ora-cli",
-  "version": "0.0.6",
-  "description": "🚧 The scaffolding for developing ora project!",
+  "version": "0.0.7",
+  "description": "🚧 个人开发脚手架",
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^3.0.0",

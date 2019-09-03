@@ -85,18 +85,18 @@ function run () {
         {
           type: 'input',
           name: 'project_name',
-          message: 'Please enter project name:',
+          message: 'Project name:',
           default: name
         },
         {
           type: 'input',
           name: 'author',
-          message: 'Please enter the author:'
+          message: 'Project author:'
         },
         {
           type: 'input',
           name: 'description',
-          message: 'Please enter project description:',
+          message: 'Project description:',
           default: 'A ora project'
         },
       ]
@@ -130,7 +130,7 @@ function run () {
               console.log()
               if (requestBody.length === 0) { // empty templates
                 console.log(
-                  '  ' + chalk.gray('empty templates, please conatact LishiJ at https://lisj.ml.')
+                  '  ' + chalk.gray('empty templates, please conatact LishiJ at https://github.com/LishiJ/ora-cli/issues.')
                 )
               } else {
                 let tplNames = [];
@@ -180,7 +180,7 @@ function run () {
  * @param {String} template
  */
 
-function downloadAndGenerate (template, answers = { project_name: 'default' }) {
+function downloadAndGenerate (template, answers = { project_name: name }) {
   console.log();
   const spinner = ora({
     text: 'downloading template...',
