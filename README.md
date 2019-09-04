@@ -1,8 +1,8 @@
-# ora-cli 
+# ora-cli [![Build status](https://ci.appveyor.com/api/projects/status/sgpje2o50ef2pgic?svg=true)](https://ci.appveyor.com/project/LishiJ/ora-cli)
 
 A simple scaffolding for creating ora projects.
 
-### Installation
+## Installation
 
 Prerequisites: [Node.js](https://nodejs.org/en/) (>=6.x, 8.x preferred), npm version 3+ and [Git](https://git-scm.com/).
 
@@ -10,7 +10,7 @@ Prerequisites: [Node.js](https://nodejs.org/en/) (>=6.x, 8.x preferred), npm ver
 $ npm install ora-cli -g
 ```
 
-### Usage
+## Usage
 
 ``` bash
 # Get ora help
