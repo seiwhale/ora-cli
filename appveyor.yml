@@ -6,8 +6,7 @@ environment:
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm install
-
- "//registry.npmjs.org/:_authToken=$env:npm_auth_token`n" | out-file "$env:userprofile\.npmrc" -Encoding ASCII
+  - ps: '"//registry.npmjs.org/:_authToken=$env:npm_auth_token`n" | out-file "$env:userprofile\.npmrc" -Encoding ASCII'
   
 test_script:
   - node --version
