@@ -17,5 +17,5 @@ cache:
 
 build: off
 
-after_deploy:
+on_success:
   - ps: npm publish
