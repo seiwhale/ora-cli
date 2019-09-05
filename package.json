@@ -1,6 +1,6 @@
 {
   "name": "ora-cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "🚧 个人开发脚手架",
   "dependencies": {
     "chalk": "^2.4.2",
