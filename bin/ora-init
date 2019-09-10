@@ -252,6 +252,8 @@ function downloadAndGenerate (template, answers = { project_name: name }) {
         console.log('  ' + chalk.blue(`cd `) + chalk.green(project_name));
         console.log('  ' + chalk.blue(`${tool} start`));
         console.log();
+        console.log(chalk.grey('Specific instructions should be executed according to package.json'));
+        console.log();
         console.log('Happy hacking!');
       });
     })

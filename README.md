@@ -36,3 +36,6 @@ $ ora init username/repo project-name
 ```
 
 The above command pulls the template from [ora-templates](https://github.com/ora-templates), prompts for some information, and generates the project at `./my-project/`.
+
+## License
+[MIT](./LICENSE)
