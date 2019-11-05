@@ -1,10 +1,10 @@
 # ora-cli 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/sgpje2o50ef2pgic?svg=true)](https://ci.appveyor.com/project/LishiJ/ora-cli)
+[![Build status](https://ci.appveyor.com/api/projects/status/sgpje2o50ef2pgic?svg=true)](https://ci.appveyor.com/project/seiwhale/ora-cli)
 [![NPM Download](https://badgen.net/npm/dm/ora-cli)](https://www.npmjs.com/package/ora-cli)
 [![NPM Version](https://badgen.net/npm/v/ora-cli)](https://www.npmjs.com/package/ora-cli)
-[![NPM License](https://badgen.net/npm/license/ora-cli)](https://github.com/LishiJ/ora-cli/blob/master/LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/LishiJ/ora-cli/pulls)
+[![NPM License](https://badgen.net/npm/license/ora-cli)](https://github.com/seiwhale/ora-cli/blob/master/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/seiwhale/ora-cli/pulls)
 
 A simple scaffolding for creating ora projects.
 

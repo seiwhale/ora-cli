@@ -1,6 +1,6 @@
 {
   "name": "ora-cli",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "🚧 FE development scaffolding",
   "dependencies": {
     "chalk": "^2.4.2",
@@ -42,10 +42,10 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LishiJ/ora-cli.git"
+    "url": "git+https://github.com/seiwhale/ora-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/LishiJ/ora-cli/issues"
+    "url": "https://github.com/seiwhale/ora-cli/issues"
   },
-  "homepage": "https://github.com/LishiJ/ora-cli#readme"
+  "homepage": "https://github.com/seiwhale/ora-cli#readme"
 }

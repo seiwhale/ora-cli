@@ -130,7 +130,7 @@ function run () {
               console.log()
               if (requestBody.length === 0) { // empty templates
                 console.log(
-                  '  ' + chalk.gray('empty templates, please conatact LishiJ at https://github.com/LishiJ/ora-cli/issues.')
+                  '  ' + chalk.gray('empty templates, please conatact seiwhale at https://github.com/seiwhale/ora-cli/issues.')
                 )
               } else {
                 let tplNames = [];
